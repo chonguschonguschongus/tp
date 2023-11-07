@@ -74,6 +74,9 @@ public class AddPatientCommandParser implements Parser<AddPatientCommand> {
         Set<Tag> tagList = ParserUtil.parsePatientTags(argMultimap.getAllValues(PREFIX_TAG));
         // appointments need to be added separately, so we initialise patients with empty appointments
         Set<Appointment> appointmentList = new HashSet<>();
+        if (phone.equals(emergencyContact)) {
+            throw new ParseException("Patient's phone number cannot be the same as their emergency contact.");
+        }
         Patient patient =
                 new Patient(name, phone, emergencyContact, email, address, remark, gender, ic, condition, bloodType,
                         appointmentList, tagList);
